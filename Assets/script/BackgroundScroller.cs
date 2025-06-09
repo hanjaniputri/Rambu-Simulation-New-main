@@ -4,25 +4,30 @@ using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
 {
-    public float speed = 2f; // kecepatan gerak ke bawah
-    public float resetPositionY = -10f; // posisi Y saat harus di-reset ke atas
-    public float startPositionY = 10f;  // posisi awal saat di-reset
-    // Start is called before the first frame update
+    public Transform[] garisPutihArray; // Isi 10 garis putih di sini
+    public float speed = 2f;
+    public float resetY = -6f;
+    public float startY = 6f;
     void Start()
     {
-
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
-
-        if (transform.position.y <= resetPositionY)
+        foreach (Transform garis in garisPutihArray)
         {
-            Vector3 pos = transform.position;
-            pos.y = startPositionY;
-            transform.position = pos;
+            // Gerakkan garis ke bawah
+            garis.Translate(Vector3.down * speed * Time.deltaTime);
+
+            // Jika sudah melewati batas bawah, kembalikan ke atas
+            if (garis.position.y < resetY)
+            {
+                Vector3 pos = garis.position;
+                pos.y = startY;
+                garis.position = pos;
+            }
         }
     }
 }
